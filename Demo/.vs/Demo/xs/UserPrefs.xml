@@ -1,8 +1,8 @@
 ﻿<Properties StartupConfiguration="{149F21A3-521C-4E12-82EB-459F019AC876}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="GeneticProgrammingDemo/Node.cs">
     <Files>
-      <File FileName="GeneticProgrammingDemo/Program.cs" Line="13" Column="3" />
-      <File FileName="GeneticProgrammingDemo/Node.cs" Line="8" Column="10" />
+      <File FileName="GeneticProgrammingDemo/Program.cs" Line="13" Column="1" />
+      <File FileName="GeneticProgrammingDemo/Node.cs" Line="15" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
