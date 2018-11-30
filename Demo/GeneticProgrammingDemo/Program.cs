@@ -8,6 +8,8 @@ namespace GeneticProgrammingDemo
 		{
 			testNode1();
 			testNode2();
+			testNode3();
+            testNode4();
 		}
 
 
@@ -38,7 +40,8 @@ namespace GeneticProgrammingDemo
 			Node a = new Node(Node.Type.FUNCTION, Node.Function.ADD, b, c);
 
 			Console.WriteLine(a.getResult());
-			Console.WriteLine(a.printFunction());
+			Console.WriteLine(a.getExpression());
+			a.printTree(a, "", true);
 		}
 
 		/*
@@ -71,7 +74,8 @@ namespace GeneticProgrammingDemo
             Node a = new Node(Node.Type.FUNCTION, Node.Function.SIN, b);
 
             Console.WriteLine(a.getResult());
-			Console.WriteLine(a.printFunction());
+			Console.WriteLine(a.getExpression());
+			a.printTree(a, "", true);
         }
 
 		/*
@@ -87,6 +91,8 @@ namespace GeneticProgrammingDemo
 			Node a = new Node(Node.Type.FUNCTION, Node.Function.SIN, b);
 
 			Console.WriteLine(a.getResult());
+			Console.WriteLine(a.getExpression());
+			a.printTree(a, "", true);
 		}
 
 		/*
@@ -102,6 +108,8 @@ namespace GeneticProgrammingDemo
             Node a = new Node(Node.Type.FUNCTION, Node.Function.COS, b);
             
             Console.WriteLine(a.getResult());
+			Console.WriteLine(a.getExpression());
+			a.printTree(a, "", true);
         }
 	}
 }

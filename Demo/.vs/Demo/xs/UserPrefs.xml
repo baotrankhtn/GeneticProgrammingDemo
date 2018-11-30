@@ -1,15 +1,15 @@
 ﻿<Properties StartupConfiguration="{149F21A3-521C-4E12-82EB-459F019AC876}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="GeneticProgrammingDemo/Node.cs">
     <Files>
-      <File FileName="GeneticProgrammingDemo/Program.cs" Line="13" Column="1" />
-      <File FileName="GeneticProgrammingDemo/Node.cs" Line="15" Column="14" />
+      <File FileName="GeneticProgrammingDemo/Program.cs" Line="64" Column="56" />
+      <File FileName="GeneticProgrammingDemo/Node.cs" Line="150" Column="12" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.GeneticProgrammingDemo PreferredExecutionTarget="MonoDevelop.Default" FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.GeneticProgrammingDemo PreferredExecutionTarget="MonoDevelop.Default" />
   <MultiItemStartupConfigurations />
 </Properties>

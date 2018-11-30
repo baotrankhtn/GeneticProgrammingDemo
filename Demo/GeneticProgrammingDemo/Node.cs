@@ -48,6 +48,48 @@ namespace GeneticProgrammingDemo
 			this.right = right;
 		}
 
+        /*
+         * Get child count
+         */
+		public int getChildCount() {
+			int count = 0;
+			if (left != null) count++;
+			if (right != null) count++;
+			return count;
+		}
+
+        /*
+         * Get content of node
+         */
+		public String getContent() {
+			String content = "";
+			switch(type) {
+				case Type.TERMINAL:
+					content = value.ToString();
+					break;
+				case Type.FUNCTION:
+					switch(funtion) {
+						case Function.ADD:
+							content = "+";
+							break;
+						case Function.SUBTRACT:
+                            content = "-";
+                            break;
+						case Function.MULTIPLY:
+                            content = "*";
+                            break;
+						case Function.SIN:
+                            content = "sin";
+                            break;
+						case Function.COS:
+                            content = "cos";
+                            break;
+					}
+					break;
+			}
+			return content;
+		}
+
 		/*
          * Get result of tree
          */
@@ -102,10 +144,34 @@ namespace GeneticProgrammingDemo
 			return result;
 		}
 
+        /*
+         * Display the tree 
+         * 
+         */
+		public void printTree(Node node, String indent, bool isLast) {
+			if (node != null)
+			{
+				Console.WriteLine(indent + "~~ " + node.getContent());
+				indent += isLast ? "   " : "|  ";
+
+				for (int i = 0; i < node.getChildCount(); i++)
+				{
+					if (i == 0)
+					{
+						printTree(node.left, indent, i == node.getChildCount() - 1);
+					}
+					else
+					{
+						printTree(node.right, indent, i == node.getChildCount() - 1);
+					}
+				}
+			}
+		}
+
 		/*
          * Display the function 
          */
-		public String printFunction()
+		public String getExpression()
 		{
 			String strFunction = "";
 			switch (type)
@@ -128,7 +194,7 @@ namespace GeneticProgrammingDemo
 						{
 							case Function.SIN:
 							case Function.COS:
-								strFunction = String.Format(getFunctionStringFormat(), this.left.printFunction());
+								strFunction = String.Format(getFunctionStringFormat(), this.left.getExpression());
 								break;
 						}
 					}
@@ -139,7 +205,7 @@ namespace GeneticProgrammingDemo
 							case Function.ADD:
 							case Function.SUBTRACT:
 							case Function.MULTIPLY:
-								strFunction = String.Format(getFunctionStringFormat(), left.printFunction(), right.printFunction());
+								strFunction = String.Format(getFunctionStringFormat(), left.getExpression(), right.getExpression());
 								break;
 						}
 					}
