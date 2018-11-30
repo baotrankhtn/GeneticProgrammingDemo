@@ -1,0 +1,3 @@
+/Users/baotran/Google Drive/Master/Stage 3/Knowledge-base System/Seminar - Genetic Progamming/Demo/GeneticProgrammingDemo/Demo/GeneticProgrammingDemo/bin/Release/GeneticProgrammingDemo.exe
+/Users/baotran/Google Drive/Master/Stage 3/Knowledge-base System/Seminar - Genetic Progamming/Demo/GeneticProgrammingDemo/Demo/GeneticProgrammingDemo/obj/x86/Release/GeneticProgrammingDemo.csproj.CoreCompileInputs.cache
+/Users/baotran/Google Drive/Master/Stage 3/Knowledge-base System/Seminar - Genetic Progamming/Demo/GeneticProgrammingDemo/Demo/GeneticProgrammingDemo/obj/x86/Release/GeneticProgrammingDemo.exe

@@ -6,7 +6,8 @@ namespace GeneticProgrammingDemo
 	{
 		public static void Main(string[] args)
 		{
-			
+			testNode1();
+			testNode2();
 		}
 
 
@@ -33,10 +34,11 @@ namespace GeneticProgrammingDemo
 
 			Node f = new Node(Node.Type.FUNCTION, Node.Function.MULTIPLY, g, h);
 			Node c = new Node(Node.Type.FUNCTION, Node.Function.SUBTRACT, e, f);
-			Node b = new Node(Node.Type.FUNCTION, Node.Function.SIN, e);
+			Node b = new Node(Node.Type.FUNCTION, Node.Function.SIN, d);
 			Node a = new Node(Node.Type.FUNCTION, Node.Function.ADD, b, c);
 
 			Console.WriteLine(a.getResult());
+			Console.WriteLine(a.printFunction());
 		}
 
 		/*
@@ -69,6 +71,7 @@ namespace GeneticProgrammingDemo
             Node a = new Node(Node.Type.FUNCTION, Node.Function.SIN, b);
 
             Console.WriteLine(a.getResult());
+			Console.WriteLine(a.printFunction());
         }
 
 		/*

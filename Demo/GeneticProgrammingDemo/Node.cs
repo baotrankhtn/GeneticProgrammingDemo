@@ -5,8 +5,8 @@
         /     \
       Left    Right
 
-Terminal: Float values
-Function: +, -, *, sin , cos
+  - Terminal: Float values
+  - Function: +, -, *, sin , cos
 
  */
 namespace GeneticProgrammingDemo
@@ -100,6 +100,79 @@ namespace GeneticProgrammingDemo
 					break;
 			}
 			return result;
+		}
+
+		/*
+         * Display the function 
+         */
+		public String printFunction()
+		{
+			String strFunction = "";
+			switch (type)
+			{
+				case Type.TERMINAL:
+					if (value >= 0)
+					{
+						strFunction = value.ToString();
+					}
+					else
+					{
+						strFunction = "(" + value.ToString() + ")";
+					}
+					break;
+
+				case Type.FUNCTION:
+					if (right == null)
+					{
+						switch (funtion)
+						{
+							case Function.SIN:
+							case Function.COS:
+								strFunction = String.Format(getFunctionStringFormat(), this.left.printFunction());
+								break;
+						}
+					}
+					else
+					{
+						switch (funtion)
+						{
+							case Function.ADD:
+							case Function.SUBTRACT:
+							case Function.MULTIPLY:
+								strFunction = String.Format(getFunctionStringFormat(), left.printFunction(), right.printFunction());
+								break;
+						}
+					}
+					break;
+			}
+			return strFunction;
+		}
+
+		/*
+         *  Function -> String format
+         */
+		private String getFunctionStringFormat()
+		{
+			String strFunction = "";
+			switch (funtion)
+			{
+				case Function.ADD:
+					strFunction = "{0}+{1}";
+					break;
+				case Function.SUBTRACT:
+					strFunction = "{0}-({1})";
+					break;
+				case Function.MULTIPLY:
+					strFunction = "{0}*{1}";
+					break;
+				case Function.SIN:
+					strFunction = "sin({0})";
+					break;
+				case Function.COS:
+					strFunction = "cos({0})";
+					break;
+			}
+			return strFunction;
 		}
 	}
 }
