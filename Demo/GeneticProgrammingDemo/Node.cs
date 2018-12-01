@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections;
 
 /*
          Node (Terminal or Function)
         /     \
       Left    Right
 
-  - Terminal: Float values
+  - Terminal: Float values, Range [-1000, 1000]
   - Function: +, -, *, sin , cos
 
  */
@@ -13,6 +14,11 @@ namespace GeneticProgrammingDemo
 {
 	public class Node
 	{
+
+		// Constants
+		private static Function[] FUNCTIONS = (Function[])Enum.GetValues(typeof(Function));
+		private static Type[] TYPES = (Type[])Enum.GetValues(typeof(Type));
+
 		public enum Function
 		{
 			ADD,
@@ -28,62 +34,148 @@ namespace GeneticProgrammingDemo
 			TERMINAL
 		}
 
+		private String name = "";
 		private Type type = Type.TERMINAL;
 		private Function funtion = Function.ADD; // If not leaft node
 		private double value; // If leaft node
 		private Node left;
 		private Node right;
 
-		public Node(Type type, double value)
+		public Node(Type type, double value, String name = "")
 		{
+			this.name = name;
 			this.type = type;
 			this.value = value;
 		}
 
-		public Node(Type type, Function function, Node left, Node right = null)
+		public Node(Type type, Function function, Node left, Node right = null, String name = "")
 		{
+			this.name = name;
 			this.type = type;
 			this.funtion = function;
 			this.left = left;
 			this.right = right;
 		}
 
-        /*
+		/*
+         *  Mutation
+         */
+		public void Mutation(String[] names)
+		{
+			Console.WriteLine("\n================== MUTATION =================\n");
+			// Random node name
+			String chosenNodeName = names[NumberUtils.GenerateRamdomInteger(0, names.Length - 1)];
+
+			// Find node based on name
+			Node chosenNode = Find(this, chosenNodeName);
+			if (chosenNode == null)
+			{
+				Console.WriteLine("Please run again");
+				return;
+			}
+
+			// Original tree
+			Console.WriteLine("- Original expression: " + GetExpression());
+			Console.WriteLine("- Original tree: ");
+			PrintTree(this, "", true);
+
+			// Mutation
+			Console.WriteLine("- Mutation at node " + chosenNode.name + ": ");
+			if (chosenNode.type == Type.FUNCTION)
+			{ // Function
+				Function newFunction = FUNCTIONS[NumberUtils.GenerateRamdomInteger(0, FUNCTIONS.Length - 1)];
+				while (chosenNode.funtion == newFunction)
+				{
+					newFunction = FUNCTIONS[NumberUtils.GenerateRamdomInteger(0, FUNCTIONS.Length - 1)];
+				}
+				Console.Write("Function " + chosenNode.GetContent() + " change to ");
+				chosenNode.funtion = newFunction;
+				Console.Write(chosenNode.GetContent());
+				switch (chosenNode.funtion)
+				{
+					case Function.SIN:
+					case Function.COS:
+						chosenNode.right = null;
+						break;
+				}
+			}
+			else
+			{ // Terminal
+				Console.Write("Value " + chosenNode.value + " change to ");
+				chosenNode.value = NumberUtils.GenerateRandomDouble(-1000, 1000);
+				Console.Write(chosenNode.value);
+			}
+
+			// Original tree
+			Console.WriteLine("\n\n- New expression: " + GetExpression());
+			Console.WriteLine("- New tree: ");
+			PrintTree(this, "", true);
+		}
+
+		/*
+         * Find node based on name
+         */
+		private Node Find(Node node, String strName)
+		{
+			if (node != null)
+			{
+				if (string.Equals(node.name, strName))
+				{
+					return node;
+				}
+				else
+				{
+					Node foundNode = Find(node.left, strName);
+					if (foundNode == null)
+					{
+						return Find(node.right, strName);
+					}
+					return foundNode;
+				}
+			}
+			return null;
+		}
+
+		/*
          * Get child count
          */
-		public int getChildCount() {
+		public int GetChildCount()
+		{
 			int count = 0;
 			if (left != null) count++;
 			if (right != null) count++;
 			return count;
 		}
 
-        /*
+		/*
          * Get content of node
          */
-		public String getContent() {
+		public String GetContent()
+		{
 			String content = "";
-			switch(type) {
+			switch (type)
+			{
 				case Type.TERMINAL:
 					content = value.ToString();
 					break;
 				case Type.FUNCTION:
-					switch(funtion) {
+					switch (funtion)
+					{
 						case Function.ADD:
 							content = "+";
 							break;
 						case Function.SUBTRACT:
-                            content = "-";
-                            break;
+							content = "-";
+							break;
 						case Function.MULTIPLY:
-                            content = "*";
-                            break;
+							content = "*";
+							break;
 						case Function.SIN:
-                            content = "sin";
-                            break;
+							content = "sin";
+							break;
 						case Function.COS:
-                            content = "cos";
-                            break;
+							content = "cos";
+							break;
 					}
 					break;
 			}
@@ -93,7 +185,7 @@ namespace GeneticProgrammingDemo
 		/*
          * Get result of tree
          */
-		public double getResult()
+		public double GetResult()
 		{
 			double result = 0;
 			switch (type)
@@ -107,13 +199,13 @@ namespace GeneticProgrammingDemo
 						switch (funtion)
 						{
 							case Function.ADD:
-								result = left.getResult() + right.getResult();
+								result = left.GetResult() + right.GetResult();
 								break;
 							case Function.SUBTRACT:
-								result = left.getResult() - right.getResult();
+								result = left.GetResult() - right.GetResult();
 								break;
 							case Function.MULTIPLY:
-								result = left.getResult() * right.getResult();
+								result = left.GetResult() * right.GetResult();
 								break;
 							default:
 								result = 0;
@@ -126,10 +218,10 @@ namespace GeneticProgrammingDemo
 						switch (funtion)
 						{
 							case Function.SIN:
-								result = Math.Sin(left.getResult() * Math.PI / 180.0);
+								result = Math.Sin(left.GetResult() * Math.PI / 180.0);
 								break;
 							case Function.COS:
-								result = Math.Cos(left.getResult() * Math.PI / 180.0);
+								result = Math.Cos(left.GetResult() * Math.PI / 180.0);
 								break;
 							default:
 								result = 0;
@@ -144,25 +236,33 @@ namespace GeneticProgrammingDemo
 			return result;
 		}
 
-        /*
+		/*
          * Display the tree 
          * 
          */
-		public void printTree(Node node, String indent, bool isLast) {
+		public void PrintTree(Node node, String indent, bool isLast)
+		{
 			if (node != null)
 			{
-				Console.WriteLine(indent + "~~ " + node.getContent());
-				indent += isLast ? "   " : "|  ";
+				if (node.name != null)
+				{
+					Console.WriteLine(indent + "+~~ " + node.GetContent() + "(" + node.name + ")");
+				}
+				else
+				{
+					Console.WriteLine(indent + "+~~ " + node.GetContent());
+				}
+				indent += isLast ? "    " : "|   ";
 
-				for (int i = 0; i < node.getChildCount(); i++)
+				for (int i = 0; i < node.GetChildCount(); i++)
 				{
 					if (i == 0)
 					{
-						printTree(node.left, indent, i == node.getChildCount() - 1);
+						PrintTree(node.left, indent, i == node.GetChildCount() - 1);
 					}
 					else
 					{
-						printTree(node.right, indent, i == node.getChildCount() - 1);
+						PrintTree(node.right, indent, i == node.GetChildCount() - 1);
 					}
 				}
 			}
@@ -171,7 +271,7 @@ namespace GeneticProgrammingDemo
 		/*
          * Display the function 
          */
-		public String getExpression()
+		public String GetExpression()
 		{
 			String strFunction = "";
 			switch (type)
@@ -194,7 +294,7 @@ namespace GeneticProgrammingDemo
 						{
 							case Function.SIN:
 							case Function.COS:
-								strFunction = String.Format(getFunctionStringFormat(), this.left.getExpression());
+								strFunction = String.Format(GetFunctionStringFormat(), this.left.GetExpression());
 								break;
 						}
 					}
@@ -205,7 +305,7 @@ namespace GeneticProgrammingDemo
 							case Function.ADD:
 							case Function.SUBTRACT:
 							case Function.MULTIPLY:
-								strFunction = String.Format(getFunctionStringFormat(), left.getExpression(), right.getExpression());
+								strFunction = String.Format(GetFunctionStringFormat(), left.GetExpression(), right.GetExpression());
 								break;
 						}
 					}
@@ -217,7 +317,7 @@ namespace GeneticProgrammingDemo
 		/*
          *  Function -> String format
          */
-		private String getFunctionStringFormat()
+		private String GetFunctionStringFormat()
 		{
 			String strFunction = "";
 			switch (funtion)

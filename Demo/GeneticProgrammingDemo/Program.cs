@@ -6,15 +6,45 @@ namespace GeneticProgrammingDemo
 	{
 		public static void Main(string[] args)
 		{
-			testNode1();
-			testNode2();
-			testNode3();
-            testNode4();
+			DemoMutation();
+		}
+
+		// ====================== MUTATION =======================
+
+		/*   
+		 * 
+         *    F1 = sin(180) + 12 - (-2.2 * 13) = 40.6
+         * 
+         *                         + (A)     <--- Level 0
+         *                       /   \
+         *                  sin (B)    - (C)    
+         *                    /       /   \
+         *              180 (D)   12 (E)  * (F) 
+         *                               /   \
+         *                          -2.2 (G)  13 (H)
+         */
+		private static void DemoMutation()
+		{
+			// Original tree
+			Node d = new Node(Node.Type.TERMINAL, 180, "D");
+			Node e = new Node(Node.Type.TERMINAL, 12, "E");
+			Node g = new Node(Node.Type.TERMINAL, -2.2, "G");
+			Node h = new Node(Node.Type.TERMINAL, 13, "H");
+
+			Node f = new Node(Node.Type.FUNCTION, Node.Function.MULTIPLY, g, h, "F");
+			Node c = new Node(Node.Type.FUNCTION, Node.Function.SUBTRACT, e, f, "C");
+			Node b = new Node(Node.Type.FUNCTION, Node.Function.SIN, d, null, "B");
+			Node a = new Node(Node.Type.FUNCTION, Node.Function.ADD, b, c, "A");
+            
+			// Mutated tree
+			String[] names = {"A", "B", "C", "D", "E", "F", "G", "H"};
+			a.Mutation(names);
 		}
 
 
 
-		// ==================== NODE TEST =======================
+
+		// ==================== NODE TESTING =======================
 		/*
          *    F = sin(180) + 12 - (-2.2 * 13) = 40.6
          * 
@@ -27,7 +57,7 @@ namespace GeneticProgrammingDemo
 		 *                          -2.2 (G)  13 (H)
          * 
          */
-		public static void testNode1()
+		private static void TestNode1()
 		{
 			Node d = new Node(Node.Type.TERMINAL, 180);
 			Node e = new Node(Node.Type.TERMINAL, 12);
@@ -39,9 +69,9 @@ namespace GeneticProgrammingDemo
 			Node b = new Node(Node.Type.FUNCTION, Node.Function.SIN, d);
 			Node a = new Node(Node.Type.FUNCTION, Node.Function.ADD, b, c);
 
-			Console.WriteLine(a.getResult());
-			Console.WriteLine(a.getExpression());
-			a.printTree(a, "", true);
+			Console.WriteLine(a.GetResult());
+			Console.WriteLine(a.GetExpression());
+			a.PrintTree(a, "", true);
 		}
 
 		/*
@@ -57,26 +87,26 @@ namespace GeneticProgrammingDemo
          *                       /   \
          *                   sin (H)  -3(I)
          *                      |
-		 *                   900 (K)
+		 *                   900 (J)
          */
-        public static void testNode2()
-        {
-            Node k = new Node(Node.Type.TERMINAL, 900);
-            Node i = new Node(Node.Type.TERMINAL, -3);
+		private static void TestNode2()
+		{
+			Node j = new Node(Node.Type.TERMINAL, 900);
+			Node i = new Node(Node.Type.TERMINAL, -3);
 			Node g = new Node(Node.Type.TERMINAL, -9);
-            Node e = new Node(Node.Type.TERMINAL, -200);
-            
-            Node h = new Node(Node.Type.FUNCTION, Node.Function.SIN, k);
+			Node e = new Node(Node.Type.TERMINAL, -200);
+
+			Node h = new Node(Node.Type.FUNCTION, Node.Function.SIN, j);
 			Node f = new Node(Node.Type.FUNCTION, Node.Function.MULTIPLY, h, i);
-            Node d = new Node(Node.Type.FUNCTION, Node.Function.ADD, f, g);
+			Node d = new Node(Node.Type.FUNCTION, Node.Function.ADD, f, g);
 			Node c = new Node(Node.Type.FUNCTION, Node.Function.COS, e);
 			Node b = new Node(Node.Type.FUNCTION, Node.Function.ADD, c, d);
-            Node a = new Node(Node.Type.FUNCTION, Node.Function.SIN, b);
+			Node a = new Node(Node.Type.FUNCTION, Node.Function.SIN, b);
 
-            Console.WriteLine(a.getResult());
-			Console.WriteLine(a.getExpression());
-			a.printTree(a, "", true);
-        }
+			Console.WriteLine(a.GetResult());
+			Console.WriteLine(a.GetExpression());
+			a.PrintTree(a, "", true);
+		}
 
 		/*
          *    F1 = sin(-7.2) = -0.125
@@ -84,15 +114,15 @@ namespace GeneticProgrammingDemo
          *                         sin (A)     <--- Level 0
          *                       /   
 		 *                    -7.2 (B)
-         */      
-		public static void testNode3()
+         */
+		private static void TestNode3()
 		{
 			Node b = new Node(Node.Type.TERMINAL, -7.2);
 			Node a = new Node(Node.Type.FUNCTION, Node.Function.SIN, b);
 
-			Console.WriteLine(a.getResult());
-			Console.WriteLine(a.getExpression());
-			a.printTree(a, "", true);
+			Console.WriteLine(a.GetResult());
+			Console.WriteLine(a.GetExpression());
+			a.PrintTree(a, "", true);
 		}
 
 		/*
@@ -102,14 +132,14 @@ namespace GeneticProgrammingDemo
          *                       /   
          *                    1000 (B)
          */
-        public static void testNode4()
-        {
-            Node b = new Node(Node.Type.TERMINAL, 1000);
-            Node a = new Node(Node.Type.FUNCTION, Node.Function.COS, b);
-            
-            Console.WriteLine(a.getResult());
-			Console.WriteLine(a.getExpression());
-			a.printTree(a, "", true);
-        }
+		private static void TestNode4()
+		{
+			Node b = new Node(Node.Type.TERMINAL, 1000);
+			Node a = new Node(Node.Type.FUNCTION, Node.Function.COS, b);
+
+			Console.WriteLine(a.GetResult());
+			Console.WriteLine(a.GetExpression());
+			a.PrintTree(a, "", true);
+		}
 	}
 }
