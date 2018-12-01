@@ -7,13 +7,14 @@ namespace GeneticProgrammingDemo
 		public static void Main(string[] args)
 		{
 			DemoMutation();
+			DemoCrossover();
 		}
 
 		// ====================== MUTATION =======================
 
 		/*   
 		 * 
-         *    F1 = sin(180) + 12 - (-2.2 * 13) = 40.6
+         *    F = sin(180) + 12 - (-2.2 * 13) = 40.6
          * 
          *                         + (A)     <--- Level 0
          *                       /   \
@@ -37,10 +38,65 @@ namespace GeneticProgrammingDemo
 			Node a = new Node(Node.Type.FUNCTION, Node.Function.ADD, b, c, "A");
             
 			// Mutated tree
-			String[] names = {"A", "B", "C", "D", "E", "F", "G", "H"};
-			a.Mutation(names);
+			a.Mutation();
 		}
 
+		/*   
+         * 
+         *    F1 = sin(180) + 12 - (-2.2 * 13) = 40.6
+         * 
+         *                         + (A1)     <--- Level 0
+         *                       /   \
+         *                  sin (B1)    - (C1)    
+         *                    /       /   \
+         *              180 (D1)   12 (E1)  * (F1) 
+         *                               /   \
+         *                          -2.2 (G1)  13 (H1)
+         *      
+         *
+         *    F2 = sin[cos(-200) + [sin(900) * (-3) + (-9)]] = -0.173
+         * 
+         *                       sin (A2)     <--- Level 0
+         *                         |
+         *                         + (B2)
+         *                       /   \
+         *                  cos (C2)    + (D2)    
+         *                    /       /   \
+         *              -200 (E2)   * (F2)  -9 (G2) 
+         *                       /   \
+         *                   sin (H2)  -3(I2)
+         *                      |
+         *                   900 (J2)
+         */
+        private static void DemoCrossover()
+        {
+            // Parent1
+            Node d1 = new Node(Node.Type.TERMINAL, 180, "D1");
+            Node e1 = new Node(Node.Type.TERMINAL, 12, "E1");
+            Node g1 = new Node(Node.Type.TERMINAL, -2.2, "G1");
+            Node h1 = new Node(Node.Type.TERMINAL, 13, "H1");
+
+            Node f1 = new Node(Node.Type.FUNCTION, Node.Function.MULTIPLY, g1, h1, "F1");
+            Node c1 = new Node(Node.Type.FUNCTION, Node.Function.SUBTRACT, e1, f1, "C1");
+            Node b1 = new Node(Node.Type.FUNCTION, Node.Function.SIN, d1, null, "B1");
+            Node a1 = new Node(Node.Type.FUNCTION, Node.Function.ADD, b1, c1, "A1");
+
+			// Parent2
+			Node j2 = new Node(Node.Type.TERMINAL, 900, "J2");
+            Node i2 = new Node(Node.Type.TERMINAL, -3, "I2");
+            Node g2 = new Node(Node.Type.TERMINAL, -9, "G2");
+            Node e2 = new Node(Node.Type.TERMINAL, -200, "E2");
+
+            Node h2 = new Node(Node.Type.FUNCTION, Node.Function.SIN, j2, null, "H2");
+            Node f2 = new Node(Node.Type.FUNCTION, Node.Function.MULTIPLY, h2, i2, "F2");
+            Node d2 = new Node(Node.Type.FUNCTION, Node.Function.ADD, f2, g2, "D2");
+            Node c2 = new Node(Node.Type.FUNCTION, Node.Function.COS, e2, null, "C2");
+            Node b2 = new Node(Node.Type.FUNCTION, Node.Function.ADD, c2, d2, "B2");
+            Node a2 = new Node(Node.Type.FUNCTION, Node.Function.SIN, b2, null, "A2");
+
+            // Crossover 
+			a1.Crossover(a2);
+        }
 
 
 
@@ -55,8 +111,10 @@ namespace GeneticProgrammingDemo
 		 *              180 (D)   12 (E)  * (F) 
          *                               /   \
 		 *                          -2.2 (G)  13 (H)
-         * 
+         *
          */
+
+
 		private static void TestNode1()
 		{
 			Node d = new Node(Node.Type.TERMINAL, 180);

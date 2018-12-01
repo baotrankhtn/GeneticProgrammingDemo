@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 /*
          Node (Terminal or Function)
@@ -38,6 +39,8 @@ namespace GeneticProgrammingDemo
 		private Type type = Type.TERMINAL;
 		private Function funtion = Function.ADD; // If not leaft node
 		private double value; // If leaft node
+
+		private Node parent;
 		private Node left;
 		private Node right;
 
@@ -55,16 +58,27 @@ namespace GeneticProgrammingDemo
 			this.funtion = function;
 			this.left = left;
 			this.right = right;
+			if (left != null) {
+				left.parent = this;
+			}
+			if (right != null) {
+				right.parent = this;
+			}
 		}
 
 		/*
          *  Mutation
+         *  
          */
-		public void Mutation(String[] names)
+		public void Mutation()
 		{
 			Console.WriteLine("\n================== MUTATION =================\n");
+            
+			// Generate all node names
+			List<String> names = getNames(this);
+   
 			// Random node name
-			String chosenNodeName = names[NumberUtils.GenerateRamdomInteger(0, names.Length - 1)];
+			String chosenNodeName = names[NumberUtils.GenerateRamdomInteger(0, names.Count - 1)];
 
 			// Find node based on name
 			Node chosenNode = Find(this, chosenNodeName);
@@ -106,10 +120,84 @@ namespace GeneticProgrammingDemo
 				Console.Write(chosenNode.value);
 			}
 
-			// Original tree
+			// New tree
 			Console.WriteLine("\n\n- New expression: " + GetExpression());
 			Console.WriteLine("- New tree: ");
 			PrintTree(this, "", true);
+		}
+
+        /*
+         * Crossover
+         */
+		public void Crossover(Node otherParent) {
+			Console.WriteLine("\n\n================== CROSSOVER =================\n");
+
+			// Generate all node names
+            List<String> parent1Names = getNames(this);
+			List<String> parent2Names = otherParent.getNames(otherParent);
+
+            // Random node name
+			String chosenNodeName1 = parent1Names[NumberUtils.GenerateRamdomInteger(1, parent1Names.Count - 1)]; // 1 to avoid root
+			String chosenNodeName2 = parent2Names[NumberUtils.GenerateRamdomInteger(1, parent2Names.Count - 1)];
+
+            // Find node based on name
+			Node chosenNode1 = Find(this, chosenNodeName1);
+			Node chosenNode2 = Find(otherParent, chosenNodeName2);
+			if (chosenNode1 == null || chosenNode2 == null)
+            {
+                Console.WriteLine("Please run again");
+                return;
+            }
+
+			// Original tree
+			Console.WriteLine("- Parent 1: " + GetExpression());
+            Console.WriteLine("+ Original expression: " + GetExpression());
+            Console.WriteLine("+ Original tree: ");
+            PrintTree(this, "", true);
+
+			Console.WriteLine("\n- Parent 2: " + otherParent.GetExpression());
+			Console.WriteLine("+ Original expression: " + otherParent.GetExpression());
+            Console.WriteLine("+ Original tree: ");
+			PrintTree(otherParent, "", true);
+            
+            // Crossover
+			Console.WriteLine("\n- Crossover at {0} of parent 1 and {1} of parent 2\n", chosenNode1.name, chosenNode2.name);
+			Node choseNode1Parent = chosenNode1.parent;
+			Node choseNode2Parent = chosenNode2.parent;
+			if (choseNode1Parent == null || choseNode2Parent == null)
+            {
+                Console.WriteLine("Please run again");
+                return;
+            }
+			Node temp = chosenNode1;
+			if (choseNode1Parent.left != null && string.Equals(choseNode1Parent.left.name, chosenNode1.name))
+			{
+				choseNode1Parent.left = chosenNode2;
+			}
+			else if (choseNode1Parent.right != null && string.Equals(choseNode1Parent.right.name, chosenNode1.name))
+			{
+				choseNode1Parent.right = chosenNode2;
+			}
+
+			if (choseNode2Parent.left != null && string.Equals(choseNode2Parent.left.name, chosenNode2.name))
+            {
+                choseNode2Parent.left = temp;
+            }
+            else if (choseNode2Parent.right != null && string.Equals(choseNode2Parent.right.name, chosenNode2.name))
+            {
+                choseNode2Parent.right = temp;
+            }
+
+			// New tree
+            Console.WriteLine("\n- Child 1: " + GetExpression());
+            Console.WriteLine("+ Expression: " + GetExpression());
+            Console.WriteLine("+ Tree: ");
+            PrintTree(this, "", true);
+
+            Console.WriteLine("\n- Child 2: " + otherParent.GetExpression());
+            Console.WriteLine("+ Expression: " + otherParent.GetExpression());
+            Console.WriteLine("+ Tree: ");
+            PrintTree(otherParent, "", true);
 		}
 
 		/*
@@ -147,6 +235,24 @@ namespace GeneticProgrammingDemo
 			return count;
 		}
 
+        /*
+         * Get all node names 
+         */
+		public List<String> getNames(Node node) {
+			List<String> names = new List<String>();
+			if (node.name != null) {
+				names.Add(node.name);
+			}
+			if (node.left != null && node.left.name != null) {
+				names.AddRange(getNames(node.left));
+			}
+			if (node.right != null && node.right.name != null)
+            {
+                names.AddRange(getNames(node.right));
+            }
+			return names;
+		}
+        
 		/*
          * Get content of node
          */
