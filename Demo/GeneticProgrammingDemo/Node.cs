@@ -150,18 +150,18 @@ namespace GeneticProgrammingDemo
             }
 
 			// Original tree
-			Console.WriteLine("- Parent 1: " + GetExpression());
+			Console.WriteLine("- Parent 1: ");
             Console.WriteLine("+ Original expression: " + GetExpression());
             Console.WriteLine("+ Original tree: ");
             PrintTree(this, "", true);
 
-			Console.WriteLine("\n- Parent 2: " + otherParent.GetExpression());
+			Console.WriteLine("\n- Parent 2: ");
 			Console.WriteLine("+ Original expression: " + otherParent.GetExpression());
             Console.WriteLine("+ Original tree: ");
 			PrintTree(otherParent, "", true);
             
             // Crossover
-			Console.WriteLine("\n- Crossover at {0} of parent 1 and {1} of parent 2\n", chosenNode1.name, chosenNode2.name);
+			Console.WriteLine("\n- Crossover at {0} of parent 1 and {1} of parent 2", chosenNode1.name, chosenNode2.name);
 			Node choseNode1Parent = chosenNode1.parent;
 			Node choseNode2Parent = chosenNode2.parent;
 			if (choseNode1Parent == null || choseNode2Parent == null)
@@ -189,12 +189,12 @@ namespace GeneticProgrammingDemo
             }
 
 			// New tree
-            Console.WriteLine("\n- Child 1: " + GetExpression());
+            Console.WriteLine("\n- Child 1: ");
             Console.WriteLine("+ Expression: " + GetExpression());
             Console.WriteLine("+ Tree: ");
             PrintTree(this, "", true);
 
-            Console.WriteLine("\n- Child 2: " + otherParent.GetExpression());
+            Console.WriteLine("\n- Child 2: ");
             Console.WriteLine("+ Expression: " + otherParent.GetExpression());
             Console.WriteLine("+ Tree: ");
             PrintTree(otherParent, "", true);

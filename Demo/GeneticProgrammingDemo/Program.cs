@@ -14,9 +14,9 @@ namespace GeneticProgrammingDemo
 
 		/*   
 		 * 
-         *    F = sin(180) + 12 - (-2.2 * 13) = 40.6
+         *    Parent = sin(180) + 12 - (-2.2 * 13) = 40.6
          * 
-         *                         + (A)     <--- Level 0
+         *                         + (A)     
          *                       /   \
          *                  sin (B)    - (C)    
          *                    /       /   \
@@ -43,9 +43,9 @@ namespace GeneticProgrammingDemo
 
 		/*   
          * 
-         *    F1 = sin(180) + 12 - (-2.2 * 13) = 40.6
+         *    Parent1 = sin(180) + 12 - ((-2.2) * 13) = 40.6
          * 
-         *                         + (A1)     <--- Level 0
+         *                         + (A1)     
          *                       /   \
          *                  sin (B1)    - (C1)    
          *                    /       /   \
@@ -54,9 +54,9 @@ namespace GeneticProgrammingDemo
          *                          -2.2 (G1)  13 (H1)
          *      
          *
-         *    F2 = sin[cos(-200) + [sin(900) * (-3) + (-9)]] = -0.173
+		 *    Parent2 = sin(cos(-200) + sin(900) * (-3) + (-9)) = -0.173
          * 
-         *                       sin (A2)     <--- Level 0
+         *                       sin (A2)     
          *                         |
          *                         + (B2)
          *                       /   \
