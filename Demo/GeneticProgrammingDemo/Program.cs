@@ -8,6 +8,7 @@ namespace GeneticProgrammingDemo
 		{
 			DemoMutation();
 			DemoCrossover();
+			Console.ReadLine();
 		}
 
 		// ====================== MUTATION =======================
@@ -54,7 +55,7 @@ namespace GeneticProgrammingDemo
          *                          -2.2 (G1)  13 (H1)
          *      
          *
-		 *    Parent2 = sin(cos(-200) + sin(900) * (-3) + (-9)) = -0.173
+		 *    Parent2 = sin(cos((-200)) + sin(900) * (-3) + (-9)) = -0.173
          * 
          *                       sin (A2)     
          *                         |
